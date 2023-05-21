@@ -37,9 +37,9 @@ class Parser
         };
     }
 
-    public function nodeToCode(Node $node): string
+    public function nodeToCode(Node ...$nodes): string
     {
-        return $this->prettyPrinter->prettyPrint([$node]);
+        return $this->prettyPrinter->prettyPrint($nodes);
     }
 
     public function mapASTNode(Node $content): PHPCodeUnit

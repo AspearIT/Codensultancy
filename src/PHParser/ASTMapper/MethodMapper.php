@@ -3,8 +3,10 @@
 namespace AspearIT\Codensultancy\PHParser\ASTMapper;
 
 use AspearIT\Codensultancy\PHParser\Parser;
+use AspearIT\Codensultancy\PHParser\Value\Comments;
 use AspearIT\Codensultancy\PHParser\Value\Method;
 use AspearIT\Codensultancy\PHParser\Value\Param;
+use AspearIT\Codensultancy\PHParser\Value\PHPCodeUnit;
 use AspearIT\Codensultancy\PHParser\Value\PHPCodeUnitType;
 use PhpParser\Node;
 
@@ -20,13 +22,24 @@ class MethodMapper implements ASTMapperInterface
         /* @var Node\Stmt\Function_ $ASTNode */
         $params = [];
         foreach ($ASTNode->params as $param) {
-            $params[] = new Param($param->var->name, $param->type->name);
+            $params[] = new PHPCodeUnit(new Param($param->var->name, $param->type->name), $parser->nodeToCode($param));
         }
-        dd($ASTNode->returnType);
-        dd($ASTNode->stmts);
+        $body = [];
+        foreach ($ASTNode->stmts as $stmt) {
+            $body[] = $parser->mapASTNode($stmt);
+        }
+        $commentText = "";
+        foreach ($ASTNode->getComments() as $comment) {
+            $commentText .= $comment->getText();
+        }
+
+        $comments = new PHPCodeUnit(new Comments(), $commentText);
         return new Method(
             $ASTNode->name->name,
             $params,
+            $ASTNode->returnType->name,
+            $comments,
+            $body,
         );
     }
 }

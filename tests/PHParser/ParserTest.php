@@ -27,6 +27,10 @@ $foo = 1 + 2;
     {
         $phpCodeUnit = $this->parser()->parse('<?php
 
+/**
+* @param int $a
+* @return string
+ */
 function toString(int $a): string
 {
     $b = (string) $a;

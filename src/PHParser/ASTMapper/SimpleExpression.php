@@ -11,7 +11,11 @@ class SimpleExpression implements ASTMapperInterface
 {
     public function isApplicable(Node $ASTNode): bool
     {
-        return $ASTNode instanceof Node\Expr\BinaryOp\Plus;
+        return
+            $ASTNode instanceof Node\Expr\BinaryOp\Plus ||
+            $ASTNode instanceof Node\Expr\Cast\String_ ||
+            $ASTNode instanceof Node\Stmt\Return_
+        ;
     }
 
     public function map(Node $ASTNode, Parser $parser): PHPCodeUnitType
