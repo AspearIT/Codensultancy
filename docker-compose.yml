@@ -1,0 +1,11 @@
+version: "3.1"
+services:
+  php-codensultant:
+    build: docker/php-apache
+    container_name: php-codensultant
+    volumes:
+      - ./:/var/www/
+      - ./docker/php-apache/apache2/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+    ports:
+      - "80:80"
+      - "443:443"
