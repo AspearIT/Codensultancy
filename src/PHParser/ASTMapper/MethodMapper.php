@@ -37,7 +37,7 @@ class MethodMapper implements ASTMapperInterface
         return new Method(
             $ASTNode->name->name,
             $params,
-            $ASTNode->returnType->name,
+            $ASTNode->returnType?->name,
             $comments,
             $body,
         );
