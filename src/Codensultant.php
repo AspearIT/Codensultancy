@@ -6,7 +6,7 @@ use AspearIT\Codensultancy\Consultant\Supplier\ConsultantSupplierInterface;
 use AspearIT\Codensultancy\Input\InputInterface;
 use AspearIT\Codensultancy\Output\OutputInterface;
 use AspearIT\Codensultancy\PHParser\Parser;
-use AspearIT\Codensultancy\PHParser\Value\PHPCodeUnit;
+use AspearIT\Codensultancy\PHParser\Value\PHPCode;
 use AspearIT\Codensultancy\PHParser\Value\PHPContent;
 
 class Codensultant

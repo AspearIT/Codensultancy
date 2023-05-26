@@ -4,26 +4,24 @@ namespace AspearIT\Codensultancy\PHParser\Value;
 
 use AspearIT\Codensultancy\PHParser\Exception\PHPCodeUnitTypeException;
 
-class Method implements PHPCodeUnitType
+class Method implements PHPCodeType
 {
     /**
-     * @param PHPCodeUnit[] $params
-     * @param PHPCodeUnit[] $body
+     * @param PHPCode[] $params
+     * @param PHPCode[] $body
      */
     public function __construct(
-        private readonly string $methodName,
-        private readonly array $params,
-        private readonly ?string $returnType,
-        private readonly PHPCodeUnit $comments,
-        private readonly array $body,
+        private readonly string   $methodName,
+        private readonly array    $params,
+        private readonly ?string  $returnType,
+        private readonly ?PHPCode $comments,
+        private readonly array    $body,
     ) {
         foreach ($this->params as $param) {
-            if (!$param->getUnitType() instanceof Param) {
-                throw PHPCodeUnitTypeException::forWrongUnitTypeGiven(Param::class, $param->getUnitType());
-            }
+            $param->shouldBeTypeOf(Variable::class);
         }
-        if (!$this->comments->getUnitType() instanceof Comments) {
-            throw PHPCodeUnitTypeException::forWrongUnitTypeGiven(Comments::class,$this->comments->getUnitType());
+        if ($this->comments !== null) {
+            $this->comments->shouldBeTypeOf(Comments::class);
         }
     }
 
@@ -33,7 +31,7 @@ class Method implements PHPCodeUnitType
     }
 
     /**
-     * @return PHPCodeUnit[]
+     * @return PHPCode[]
      */
     public function getParams(): array
     {
@@ -45,13 +43,13 @@ class Method implements PHPCodeUnitType
         return $this->returnType;
     }
 
-    public function getComments(): PHPCodeUnit
+    public function getComments(): ?PHPCode
     {
         return $this->comments;
     }
 
     /**
-     * @return PHPCodeUnit[]
+     * @return PHPCode[]
      */
     public function getBody(): array
     {
@@ -60,6 +58,6 @@ class Method implements PHPCodeUnitType
 
     public function getCodeSubUnits(): array
     {
-        return array_merge([$this->comments], $this->params, $this->body);
+        return array_filter(array_merge([$this->comments], $this->params, $this->body));
     }
 }

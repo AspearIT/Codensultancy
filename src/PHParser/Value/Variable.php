@@ -2,8 +2,12 @@
 
 namespace AspearIT\Codensultancy\PHParser\Value;
 
-class SimpleUnitPHP implements PHPCodeUnitType
+class Variable implements PHPCodeType
 {
+    public function __construct(
+        private readonly string $name,
+    ) {}
+
     public function getCodeSubUnits(): array
     {
         return [];

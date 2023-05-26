@@ -2,10 +2,10 @@
 
 namespace AspearIT\Codensultancy\PHParser\Value;
 
-interface PHPCodeUnitType
+interface PHPCodeType
 {
     /**
-     * @return PHPCodeUnit[]
+     * @return PHPCode[]
      */
     public function getCodeSubUnits(): array;
 }

@@ -4,7 +4,9 @@ namespace AspearIT\Codensultancy\PHParser;
 
 use AspearIT\Codensultancy\PHParser\Value\Assign;
 use AspearIT\Codensultancy\PHParser\Value\Method;
-use AspearIT\Codensultancy\PHParser\Value\PHPCodeUnit;
+use AspearIT\Codensultancy\PHParser\Value\PHPCode;
+use AspearIT\Codensultancy\PHParser\Value\ReturnStatement;
+use AspearIT\Codensultancy\PHParser\Value\Variable;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +22,7 @@ function toString()
 
 }
         ');
-        $method = $this->assertMethod($phpCodeUnit, 'toString', 0);
+        $method = $this->assertMethod($phpCodeUnit, 'toString', []);
         $this->assertCount(0, $method->getParams());
         $this->assertNull($method->getReturnType());
     }
@@ -34,17 +36,38 @@ function toString(): string
     return "foo";
 }
         ');
-        $method = $this->assertMethod($phpCodeUnit, 'toString', 1);
-        $this->assertCount(0, $method->getParams());
+        $method = $this->assertMethod($phpCodeUnit, 'toString', [ReturnStatement::class]);
         $this->assertEquals('string', $method->getReturnType());
     }
 
-    private function assertMethod(PHPCodeUnit $codeUnit, string $expectedMethodName, int $expectedBodyCount): Method
+    public function testParser_can_compile_input_args()
+    {
+        $phpCodeUnit = $this->parser()->parse('<?php
+
+function toString($in): string
+{   
+    $out = $in->doSometing();
+    
+    return $out;
+}
+        ');
+        $method = $this->assertMethod($phpCodeUnit, 'toString', [
+            Variable::class,
+            Assign::class,
+            ReturnStatement::class,
+        ]);
+        $this->assertCount(3, $method->getCodeSubUnits());
+    }
+
+    private function assertMethod(PHPCode $codeUnit, string $expectedMethodName, array $expectedSubClasses): Method
     {
         $unitType = $codeUnit->getUnitType();
         $this->assertInstanceOf(Method::class, $unitType);
         $this->assertEquals($expectedMethodName, $unitType->getMethodName());
-        $this->assertCount($expectedBodyCount, $unitType->getBody());
+        $this->assertCount(count($expectedSubClasses), $unitType->getCodeSubUnits());
+        foreach ($unitType->getCodeSubUnits() as $subCode) {
+            $this->assertInstanceOf(array_shift($expectedSubClasses), $subCode->getUnitType());
+        }
 
         return $unitType;
     }
