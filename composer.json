@@ -5,7 +5,8 @@
     }
   },
   "require": {
-    "nikic/php-parser": "^4.15"
+    "nikic/php-parser": "^4.15",
+    "illuminate/container": "^10.12"
   },
   "autoload-dev": {
     "psr-4": {

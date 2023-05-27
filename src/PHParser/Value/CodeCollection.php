@@ -2,16 +2,16 @@
 
 namespace AspearIT\Codensultancy\PHParser\Value;
 
-class UnclassifiedUnits implements PHPCodeType
+class CodeCollection implements PHPCodeType
 {
     /**
-     * @param PHPCodeType[] $codeParts
+     * @param PHPCode[] $codeParts
      */
     public function __construct(
         private readonly array $codeParts,
     ) {}
 
-    public function getCodeSubUnits(string $originalCode): array
+    public function getCodeSubUnits(): array
     {
         return $this->codeParts;
     }

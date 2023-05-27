@@ -27,4 +27,28 @@ class PHPCode
     {
         return $this->originalCode;
     }
+
+    /**
+     * @return self[]
+     */
+    public function getSubCodeUnits(): array
+    {
+        return $this->unitType->getCodeSubUnits();
+    }
+
+    /**
+     * @return self[]
+     */
+    public function getSubCodeUnitsRecursive(): array
+    {
+        $result = [];
+        foreach ($this->unitType->getCodeSubUnits() as $codeSubUnit) {
+            // Ignore the collections because they have no value in this context
+            if (!$codeSubUnit->unitType instanceof CodeCollection) {
+                $result[] = $codeSubUnit;
+            }
+            $result = array_merge($result, $codeSubUnit->getSubCodeUnitsRecursive());
+        }
+        return $result;
+    }
 }

@@ -4,9 +4,12 @@ namespace AspearIT\Codensultancy\PHParser;
 
 use AspearIT\Codensultancy\PHParser\ASTMapper\ASTMapperInterface;
 use AspearIT\Codensultancy\PHParser\ASTMapper\ComplexASTMapper;
+use Psr\Container\ContainerInterface;
 
 class ASTMapperFactory
 {
+    public function __construct(private readonly ContainerInterface $container) {}
+
     /**
      * @return ASTMapperInterface[]
      */
@@ -14,17 +17,21 @@ class ASTMapperFactory
     {
         $mapperDir = realpath(__DIR__ . "/ASTMapper");
         $mappers = [];
-        //TODO find a better way. This one is easy but dirty
         foreach (scandir($mapperDir) as $file) {
             if (trim($file, '.') === '') {
                 continue;
             }
-            $class = __NAMESPACE__ . "\\ASTMapper\\" . preg_replace('/\.php$/', '', $file);
+            $class = $this->getClassNameFromFile($file);
             if ($class === ASTMapperInterface::class || $class === ComplexASTMapper::class) {
                 continue;
             }
-            $mappers[] = new $class;
+            $mappers[] = $this->container->get($class);
         }
         return $mappers;
+    }
+
+    private function getClassNameFromFile(string $fileName): string
+    {
+        return __NAMESPACE__ . "\\ASTMapper\\" . preg_replace('/\.php$/', '', $fileName);
     }
 }

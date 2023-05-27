@@ -9,4 +9,9 @@ interface ASTNodeParser
 {
     public function mapASTNode(Node $content): PHPCode;
 
+    /**
+     * @param Node[] $content
+     */
+    public function mapASTNodes(array $contents): PHPCode;
+
 }

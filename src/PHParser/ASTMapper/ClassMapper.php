@@ -6,7 +6,6 @@ use AspearIT\Codensultancy\PHParser\ASTNodeParser;
 use AspearIT\Codensultancy\PHParser\Exception\UnsupportedNodeException;
 use AspearIT\Codensultancy\PHParser\Value\Method;
 use AspearIT\Codensultancy\PHParser\Value\Variable;
-use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 
 class ClassMapper extends ComplexASTMapper
