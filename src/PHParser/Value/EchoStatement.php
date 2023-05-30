@@ -6,7 +6,7 @@ class EchoStatement implements PHPCodeType
 {
     public function __construct(private readonly PHPCode $codeToEcho) {}
 
-    public function getCodeSubUnits(): array
+    public function getInnerCode(): array
     {
         return [$this->codeToEcho];
     }

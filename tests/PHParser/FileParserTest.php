@@ -3,7 +3,11 @@
 namespace PHParser;
 
 use AspearIT\Codensultancy\PHParser\ParserTestCase;
+use AspearIT\Codensultancy\PHParser\Value\Assign;
 use AspearIT\Codensultancy\PHParser\Value\CodeCollection;
+use AspearIT\Codensultancy\PHParser\Value\Import;
+use AspearIT\Codensultancy\PHParser\Value\MethodCall;
+use AspearIT\Codensultancy\PHParser\Value\Variable;
 
 class FileParserTest extends ParserTestCase
 {
@@ -15,9 +19,14 @@ class FileParserTest extends ParserTestCase
  use Bar\Foo;
 
  $foo = bar();
-        ')->getUnitType();
-        $this->assertInstanceOf(CodeCollection::class, $phpCode);
-        $this->assertCount(2, $phpCode->getCodeSubUnits());
+        ');
+
+        $this->assertPHPCodeStructure($phpCode, CodeCollection::class, [
+            Import::class,
+            Assign::class,
+            Variable::class,
+            MethodCall::class
+        ]);
     }
 
     public function testParse_can_handle_multiple_imports()
@@ -30,9 +39,15 @@ class FileParserTest extends ParserTestCase
  use Foo\Bar2;
 
  $foo = bar();
-        ')->getUnitType();
-        $this->assertInstanceOf(CodeCollection::class, $phpCode);
-        $this->assertCount(4, $phpCode->getCodeSubUnits());
+        ');
+        $this->assertPHPCodeStructure($phpCode, CodeCollection::class, [
+            Import::class,
+            Import::class,
+            Import::class,
+            Assign::class,
+            Variable::class,
+            MethodCall::class
+        ]);
     }
 
     public function testParse_can_handle_nested_multiple_imports()
@@ -47,7 +62,12 @@ class FileParserTest extends ParserTestCase
  
  $foo = bar();
         ');
-        $this->assertInstanceOf(CodeCollection::class, $phpCode->getUnitType());
-        $this->assertCount(4, $phpCode->getSubCodeUnitsRecursive());
+        $this->assertPHPCodeStructure($phpCode, CodeCollection::class, [
+            Import::class,
+            Import::class,
+            Assign::class,
+            Variable::class,
+            MethodCall::class
+        ]);
     }
 }

@@ -56,7 +56,7 @@ class Method implements PHPCodeType
         return $this->body;
     }
 
-    public function getCodeSubUnits(): array
+    public function getInnerCode(): array
     {
         return array_filter(array_merge([$this->comments], $this->params, $this->body));
     }

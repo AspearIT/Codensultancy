@@ -16,13 +16,9 @@ class AssignMapper implements ASTMapperInterface
 
     public function map(Node $ASTNode, ASTNodeParser $parser): PHPCodeType
     {
-        if ($ASTNode->var instanceof Node\Expr\Variable) {
-            $name = $ASTNode->var->name;
-        } elseif ($ASTNode->var instanceof Node\Expr\PropertyFetch) {
-            $name = $ASTNode->var->var->name . "->" . $ASTNode->var->name->name;
-        } else {
-            throw new \Exception(get_class($ASTNode) . " not supported yet");
-        }
-        return new Assign($name, $parser->mapASTNode($ASTNode->expr));
+        return new Assign(
+            $parser->mapASTNode($ASTNode->var),
+            $parser->mapASTNode($ASTNode->expr),
+        );
     }
 }

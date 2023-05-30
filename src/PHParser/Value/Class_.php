@@ -19,7 +19,7 @@ class Class_ implements PHPCodeType
         }
     }
 
-    public function getCodeSubUnits(): array
+    public function getInnerCode(): array
     {
         $subUnits = [];
         $subUnits = array_merge($subUnits, $this->properties);

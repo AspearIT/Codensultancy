@@ -19,7 +19,7 @@ class Array_ implements PHPCodeType
         return array_keys($this->items);
     }
 
-    public function getCodeSubUnits(): array
+    public function getInnerCode(): array
     {
         return $this->items;
     }

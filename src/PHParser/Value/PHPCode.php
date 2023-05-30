@@ -31,23 +31,37 @@ class PHPCode
     /**
      * @return self[]
      */
-    public function getSubCodeUnits(): array
+    public function getInnerCode(): array
     {
-        return $this->unitType->getCodeSubUnits();
+        return $this->unitType->getInnerCode();
     }
 
     /**
      * @return self[]
      */
-    public function getSubCodeUnitsRecursive(): array
+    public function getInnerCodeRecursive(): array
     {
         $result = [];
-        foreach ($this->unitType->getCodeSubUnits() as $codeSubUnit) {
+        foreach ($this->unitType->getInnerCode() as $codeSubUnit) {
             // Ignore the collections because they have no value in this context
             if (!$codeSubUnit->unitType instanceof CodeCollection) {
                 $result[] = $codeSubUnit;
             }
-            $result = array_merge($result, $codeSubUnit->getSubCodeUnitsRecursive());
+            $result = array_merge($result, $codeSubUnit->getInnerCodeRecursive());
+        }
+        return $result;
+    }
+
+    /**
+     * @return PHPCode[]
+     */
+    public function getInnerCodeFromType(string $codeTypeClassName): array
+    {
+        $result = [];
+        foreach ($this->getInnerCodeRecursive() as $code) {
+            if ($code->getUnitType() instanceof $codeTypeClassName) {
+                $result[] = $code;
+            }
         }
         return $result;
     }

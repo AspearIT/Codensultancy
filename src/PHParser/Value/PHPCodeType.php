@@ -7,5 +7,5 @@ interface PHPCodeType
     /**
      * @return PHPCode[]
      */
-    public function getCodeSubUnits(): array;
+    public function getInnerCode(): array;
 }

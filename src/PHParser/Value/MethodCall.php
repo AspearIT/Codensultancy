@@ -25,7 +25,7 @@ class MethodCall implements PHPCodeType
         return $this->input;
     }
 
-    public function getCodeSubUnits(): array
+    public function getInnerCode(): array
     {
         return $this->input;
     }

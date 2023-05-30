@@ -5,19 +5,17 @@ namespace AspearIT\Codensultancy\PHParser\Value;
 class Assign implements PHPCodeType
 {
     public function __construct(
-        private readonly string  $variableName,
+        private readonly PHPCode $variable,
         private readonly PHPCode $assignedExpression,
-    ) {}
-
-    public function getCodeSubUnits(): array
-    {
-        return [
-            $this->assignedExpression,
-        ];
+    ) {
+        $this->variable->shouldBeTypeOf(Variable::class);
     }
 
-    public function getVariableName(): string
+    public function getInnerCode(): array
     {
-        return $this->variableName;
+        return [
+            $this->variable,
+            $this->assignedExpression,
+        ];
     }
 }

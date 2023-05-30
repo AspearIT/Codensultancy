@@ -56,7 +56,7 @@ function toString($in): string
             Assign::class,
             ReturnStatement::class,
         ]);
-        $this->assertCount(3, $method->getCodeSubUnits());
+        $this->assertCount(3, $method->getInnerCode());
     }
 
     private function assertMethod(PHPCode $codeUnit, string $expectedMethodName, array $expectedSubClasses): Method
@@ -64,8 +64,8 @@ function toString($in): string
         $unitType = $codeUnit->getUnitType();
         $this->assertInstanceOf(Method::class, $unitType);
         $this->assertEquals($expectedMethodName, $unitType->getMethodName());
-        $this->assertCount(count($expectedSubClasses), $unitType->getCodeSubUnits());
-        foreach ($unitType->getCodeSubUnits() as $subCode) {
+        $this->assertCount(count($expectedSubClasses), $unitType->getInnerCode());
+        foreach ($unitType->getInnerCode() as $subCode) {
             $this->assertInstanceOf(array_shift($expectedSubClasses), $subCode->getUnitType());
         }
 

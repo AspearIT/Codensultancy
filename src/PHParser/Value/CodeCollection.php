@@ -11,7 +11,7 @@ class CodeCollection implements PHPCodeType
         private readonly array $codeParts,
     ) {}
 
-    public function getCodeSubUnits(): array
+    public function getInnerCode(): array
     {
         return $this->codeParts;
     }

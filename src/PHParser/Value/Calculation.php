@@ -10,7 +10,7 @@ class Calculation implements PHPCodeType
         private readonly string  $operator,
     ) {}
 
-    public function getCodeSubUnits(): array
+    public function getInnerCode(): array
     {
         return [
             $this->first,

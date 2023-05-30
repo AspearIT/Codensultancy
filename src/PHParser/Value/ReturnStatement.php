@@ -6,7 +6,7 @@ class ReturnStatement implements PHPCodeType
 {
     public function __construct(private readonly PHPCode $phpCode) {}
 
-    public function getCodeSubUnits(): array
+    public function getInnerCode(): array
     {
         return [$this->phpCode];
     }

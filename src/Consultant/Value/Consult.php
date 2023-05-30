@@ -2,22 +2,18 @@
 
 namespace AspearIT\Codensultancy\Consultant\Value;
 
+use AspearIT\Codensultancy\PHParser\Value\PHPCode;
+
 class Consult
 {
     public function __construct(
-        private readonly int $line,
-        private readonly string $phpLine,
+        private readonly PHPCode $phpCode,
         private readonly string $description,
     ) {}
 
-    public function getLine(): int
+    public function getPhpCode(): PHPCode
     {
-        return $this->line;
-    }
-
-    public function getPhpLine(): string
-    {
-        return $this->phpLine;
+        return $this->phpCode;
     }
 
     public function getDescription(): string

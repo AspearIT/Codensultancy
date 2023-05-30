@@ -8,7 +8,12 @@ class Variable implements PHPCodeType
         private readonly string $name,
     ) {}
 
-    public function getCodeSubUnits(): array
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getInnerCode(): array
     {
         return [];
     }

@@ -11,7 +11,7 @@ class Import implements PHPCodeType
         return implode('\\', $this->classParts);
     }
 
-    public function getCodeSubUnits(): array
+    public function getInnerCode(): array
     {
         return [];
     }

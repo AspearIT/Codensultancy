@@ -13,7 +13,7 @@ class ClassParserTest extends ParserTestCase
     {
         $phpType = $this->parser()->parse('class Foo {}')->getUnitType();
         $this->assertInstanceOf(Class_::class, $phpType);
-        $this->assertCount(0, $phpType->getCodeSubUnits());
+        $this->assertCount(0, $phpType->getInnerCode());
     }
 
     public function testParser_can_parse_class_method()
@@ -24,7 +24,7 @@ class ClassParserTest extends ParserTestCase
             }
         }')->getUnitType();
         $this->assertInstanceOf(Class_::class, $phpType);
-        $this->assertCount(1, $phpType->getCodeSubUnits());
+        $this->assertCount(1, $phpType->getInnerCode());
     }
 
     public function testParser_can_parse_php7_properties()
@@ -36,8 +36,8 @@ class ClassParserTest extends ParserTestCase
                 $this->bar = $bar;
             }
         }')->getUnitType();
-        $this->assertCount(2, $phpType->getCodeSubUnits());
-        $this->assertInstanceOf(Variable::class, $phpType->getCodeSubUnits()[0]->getUnitType());
-        $this->assertInstanceOf(Method::class, $phpType->getCodeSubUnits()[1]->getUnitType());
+        $this->assertCount(2, $phpType->getInnerCode());
+        $this->assertInstanceOf(Variable::class, $phpType->getInnerCode()[0]->getUnitType());
+        $this->assertInstanceOf(Method::class, $phpType->getInnerCode()[1]->getUnitType());
     }
 }
