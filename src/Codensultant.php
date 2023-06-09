@@ -2,18 +2,16 @@
 
 namespace AspearIT\Codensultancy;
 
-use AspearIT\Codensultancy\Consultant\Supplier\ConsultantSupplierInterface;
+use AspearIT\Codensultancy\CodeType\CodeTypeDetectorInterface;
+use AspearIT\Codensultancy\Consultant\ConsultantSupplierInterface;
 use AspearIT\Codensultancy\Consultant\Value\Consult;
-use AspearIT\Codensultancy\Input\InputInterface;
-use AspearIT\Codensultancy\Output\OutputInterface;
 use AspearIT\Codensultancy\PHParser\Parser;
-use AspearIT\Codensultancy\PHParser\Value\PHPCode;
-use AspearIT\Codensultancy\PHParser\Value\PHPContent;
 
 class Codensultant
 {
     public function __construct(
         private readonly Parser $parser,
+        private readonly CodeTypeDetectorInterface $codeTypeDetector,
         private readonly ConsultantSupplierInterface $consultantSupplier,
     ) {}
 
@@ -25,10 +23,11 @@ class Codensultant
     {
         $result = [];
         foreach ($php as $phpCode) {
-            $phpUnit = $this->parser->parse($phpCode);
+            $parsedPHPCode = $this->parser->parse($phpCode);
+            $codeType = $this->codeTypeDetector->detectCodeType($parsedPHPCode);
 
             foreach ($this->consultantSupplier->getConsultants() as $consultant) {
-                $consults = $consultant->consult($phpUnit);
+                $consults = $consultant->consult($parsedPHPCode, $codeType);
                 $result = array_merge($result, $consults);
             }
         }

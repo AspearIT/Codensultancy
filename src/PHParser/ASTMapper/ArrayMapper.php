@@ -18,7 +18,7 @@ class ArrayMapper extends ComplexASTMapper
                 }
                 return new Array_($items);
             },
-            Node\Expr\ArrayItem::class => fn (Node\Expr\ArrayItem $node, ASTNodeParser $parser) => $parser->mapASTNode($node->value)->getUnitType(),
+            Node\Expr\ArrayItem::class => fn (Node\Expr\ArrayItem $node, ASTNodeParser $parser) => $parser->mapASTNode($node->value)->getCodeType(),
         ];
     }
 }

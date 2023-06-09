@@ -1,8 +1,9 @@
 <?php
 
-namespace AspearIT\Codensultancy;
+namespace AspearIT\Codensultancy\Consultant;
 
-use AspearIT\Codensultancy\Consultant\Supplier\ConsultantSupplierInterface;
+use AspearIT\Codensultancy\Codensultant;
+use AspearIT\Codensultancy\PHParser;
 use Illuminate\Contracts\Container\Container;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;

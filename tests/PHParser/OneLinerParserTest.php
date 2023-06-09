@@ -6,6 +6,7 @@ use AspearIT\Codensultancy\PHParser\ParserTestCase;
 use AspearIT\Codensultancy\PHParser\Value\ArrayAccessVariable;
 use AspearIT\Codensultancy\PHParser\Value\Assign;
 use AspearIT\Codensultancy\PHParser\Value\Calculation;
+use AspearIT\Codensultancy\PHParser\Value\Concatenation;
 use AspearIT\Codensultancy\PHParser\Value\EchoStatement;
 use AspearIT\Codensultancy\PHParser\Value\MethodCall;
 use AspearIT\Codensultancy\PHParser\Value\PropertyAccessVariable;
@@ -20,10 +21,10 @@ class OneLinerParserTest extends ParserTestCase
         $parser = $this->parser();
         foreach ($this->getOneLiners() as $phpCode => $expectations) {
             $parsedCode = $parser->parse($phpCode);
-            $this->assertInstanceOf($expectations[0], $parsedCode->getUnitType(), $phpCode);
-            $this->assertCount(count($expectations[1]), $parsedCode->getUnitType()->getInnerCode(), $phpCode);
-            foreach ($parsedCode->getUnitType()->getInnerCode() as $subCode) {
-                $this->assertInstanceOf(array_shift($expectations[1]), $subCode->getUnitType(), $phpCode);
+            $this->assertInstanceOf($expectations[0], $parsedCode->getCodeType(), $phpCode);
+            $this->assertCount(count($expectations[1]), $parsedCode->getCodeType()->getInnerCode(), $phpCode);
+            foreach ($parsedCode->getCodeType()->getInnerCode() as $subCode) {
+                $this->assertInstanceOf(array_shift($expectations[1]), $subCode->getCodeType(), $phpCode);
             }
         }
     }
@@ -44,6 +45,8 @@ class OneLinerParserTest extends ParserTestCase
             '$cart["cart_id"] = $variable;' => [Assign::class, [ArrayAccessVariable::class, Variable::class]],
             '$array["cart_id"][0];' => [ArrayAccessVariable::class, [ArrayAccessVariable::class, Value::class]],
             '$object->subObject->property;' => [PropertyAccessVariable::class, [PropertyAccessVariable::class, PropertyVariable::class]],
+            '"SELECT * FROM table WHERE prop = $var1";' => [Concatenation::class, [Value::class, Variable::class]],
+            '"SELECT * FROM table WHERE prop = $var1 AND method = " . method();' => [Concatenation::class, [Concatenation::class, MethodCall::class]],
         ];
     }
 }

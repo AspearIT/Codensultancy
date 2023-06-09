@@ -10,6 +10,6 @@ class ShopController extends Controller
         $itemId = $_POST['item_id'];
         $amount = $_POST['amount'];
 
-        Db::query('INSERT INTO cart_lines (cart_id, item_id, amount) VALUES ($cart, $itemId, $amount)');
+        Db::query("INSERT INTO cart_lines (cart_id, item_id, amount) VALUES ($cart, $itemId, $amount)");
     }
 }

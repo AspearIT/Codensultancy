@@ -33,7 +33,7 @@ class MethodMapper implements ASTMapperInterface
             foreach ($ASTNode->getComments() as $comment) {
                 $commentText .= $comment->getText();
             }
-            $comments = new PHPCode(new Comments(), $commentText);
+            $comments = new PHPCode(new Comments(), $commentText, 0, 0);//TODO comments should be handled different
         }
 
         return new Method(

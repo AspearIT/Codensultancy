@@ -11,7 +11,7 @@ class ClassParserTest extends ParserTestCase
 {
     public function testParser_can_parse_empty_class()
     {
-        $phpType = $this->parser()->parse('class Foo {}')->getUnitType();
+        $phpType = $this->parser()->parse('class Foo {}')->getCodeType();
         $this->assertInstanceOf(Class_::class, $phpType);
         $this->assertCount(0, $phpType->getInnerCode());
     }
@@ -22,7 +22,7 @@ class ClassParserTest extends ParserTestCase
             public function bar(string $var): string {
                 return $var;
             }
-        }')->getUnitType();
+        }')->getCodeType();
         $this->assertInstanceOf(Class_::class, $phpType);
         $this->assertCount(1, $phpType->getInnerCode());
     }
@@ -35,9 +35,9 @@ class ClassParserTest extends ParserTestCase
             public function __construct(string $bar) {
                 $this->bar = $bar;
             }
-        }')->getUnitType();
+        }')->getCodeType();
         $this->assertCount(2, $phpType->getInnerCode());
-        $this->assertInstanceOf(Variable::class, $phpType->getInnerCode()[0]->getUnitType());
-        $this->assertInstanceOf(Method::class, $phpType->getInnerCode()[1]->getUnitType());
+        $this->assertInstanceOf(Variable::class, $phpType->getInnerCode()[0]->getCodeType());
+        $this->assertInstanceOf(Method::class, $phpType->getInnerCode()[1]->getCodeType());
     }
 }

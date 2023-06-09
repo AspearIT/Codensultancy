@@ -3,24 +3,27 @@
 namespace AspearIT\Codensultancy\PHParser\Value;
 
 use AspearIT\Codensultancy\PHParser\Exception\PHPCodeUnitTypeException;
+use \BadMethodCallException;
 
 class PHPCode
 {
     public function __construct(
-        private readonly PHPCodeType $unitType,
+        private readonly PHPCodeType $codeType,
         private readonly string      $originalCode,
+        private readonly int         $lineFrom,
+        private readonly int         $lineTo,
     ) {}
 
     public function shouldBeTypeOf(string $class): void
     {
-        if (!$this->unitType instanceof $class) {
-            throw PHPCodeUnitTypeException::forWrongUnitTypeGiven($class, $this->unitType);
+        if (!$this->codeType instanceof $class) {
+            throw PHPCodeUnitTypeException::forWrongUnitTypeGiven($class, $this->codeType);
         }
     }
 
-    public function getUnitType(): PHPCodeType
+    public function getCodeType(): PHPCodeType
     {
-        return $this->unitType;
+        return $this->codeType;
     }
 
     public function getOriginalCode(): string
@@ -33,7 +36,7 @@ class PHPCode
      */
     public function getInnerCode(): array
     {
-        return $this->unitType->getInnerCode();
+        return $this->codeType->getInnerCode();
     }
 
     /**
@@ -42,9 +45,9 @@ class PHPCode
     public function getInnerCodeRecursive(): array
     {
         $result = [];
-        foreach ($this->unitType->getInnerCode() as $codeSubUnit) {
+        foreach ($this->codeType->getInnerCode() as $codeSubUnit) {
             // Ignore the collections because they have no value in this context
-            if (!$codeSubUnit->unitType instanceof CodeCollection) {
+            if (!$codeSubUnit->codeType instanceof CodeCollection) {
                 $result[] = $codeSubUnit;
             }
             $result = array_merge($result, $codeSubUnit->getInnerCodeRecursive());
@@ -55,13 +58,14 @@ class PHPCode
     /**
      * @return PHPCode[]
      */
-    public function getInnerCodeFromType(string $codeTypeClassName): array
+    public function getCodeFromType(string $codeTypeClassName): array
     {
         $result = [];
-        foreach ($this->getInnerCodeRecursive() as $code) {
-            if ($code->getUnitType() instanceof $codeTypeClassName) {
-                $result[] = $code;
-            }
+        if ($this->getCodeType() instanceof $codeTypeClassName) {
+            $result[] = $this;
+        }
+        foreach ($this->getInnerCode() as $code) {
+            $result = array_merge($result, $code->getCodeFromType($codeTypeClassName));
         }
         return $result;
     }

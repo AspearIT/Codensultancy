@@ -61,12 +61,12 @@ function toString($in): string
 
     private function assertMethod(PHPCode $codeUnit, string $expectedMethodName, array $expectedSubClasses): Method
     {
-        $unitType = $codeUnit->getUnitType();
+        $unitType = $codeUnit->getCodeType();
         $this->assertInstanceOf(Method::class, $unitType);
         $this->assertEquals($expectedMethodName, $unitType->getMethodName());
         $this->assertCount(count($expectedSubClasses), $unitType->getInnerCode());
         foreach ($unitType->getInnerCode() as $subCode) {
-            $this->assertInstanceOf(array_shift($expectedSubClasses), $subCode->getUnitType());
+            $this->assertInstanceOf(array_shift($expectedSubClasses), $subCode->getCodeType());
         }
 
         return $unitType;

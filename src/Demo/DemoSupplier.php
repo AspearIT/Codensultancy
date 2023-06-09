@@ -1,8 +1,9 @@
 <?php
 
-namespace AspearIT\Codensultancy\Consultant\Supplier;
+namespace AspearIT\Codensultancy\Demo;
 
-use AspearIT\Codensultancy\Consultant\Type\AccessSuperGlobals;
+use AspearIT\Codensultancy\Consultant\ConsultantSupplierInterface;
+use AspearIT\Codensultancy\Demo\Consultant\AccessSuperGlobals;
 
 class DemoSupplier implements ConsultantSupplierInterface
 {

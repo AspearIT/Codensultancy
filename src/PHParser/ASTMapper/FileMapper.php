@@ -16,7 +16,7 @@ class FileMapper extends ComplexASTMapper
     protected function getSupportedNodes(): array
     {
         return [
-            Node\Stmt\Namespace_::class => fn (Node\Stmt\Namespace_ $node, ASTNodeParser $parser) => $parser->mapASTNodes($node->stmts)->getUnitType(),
+            Node\Stmt\Namespace_::class => fn (Node\Stmt\Namespace_ $node, ASTNodeParser $parser) => $parser->mapASTNodes($node->stmts)->getCodeType(),
             Node\Stmt\UseUse::class => fn () => throw new \LogicException(sprintf(
                 "%s nodes should be handled by the %s mapping",
                 Node\Stmt\UseUse::class,
@@ -28,7 +28,7 @@ class FileMapper extends ComplexASTMapper
                 $baseParts = $node->prefix->parts;
                 foreach ($node->uses as $useNode) {
                     $currentUseParts = array_merge($baseParts, $useNode->name->parts);
-                    $result[] = new PHPCode(new Import($currentUseParts), $this->prettyPrinter->prettyPrint([$node]));
+                    $result[] = new PHPCode(new Import($currentUseParts), $this->prettyPrinter->prettyPrint([$node]), $useNode->getStartLine(), $useNode->getEndLine());
                 }
                 return new CodeCollection($result);
             },

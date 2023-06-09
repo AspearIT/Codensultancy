@@ -1,7 +1,7 @@
 <?php
 
-use AspearIT\Codensultancy\Consultant\Supplier\DemoSupplier;
-use AspearIT\Codensultancy\ConsultantFactory;
+use AspearIT\Codensultancy\Consultant\ConsultantFactory;
+use AspearIT\Codensultancy\Demo\DemoSupplier;
 
 require_once __DIR__ . "/../vendor/autoload.php";
 

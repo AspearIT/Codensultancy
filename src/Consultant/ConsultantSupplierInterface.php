@@ -1,6 +1,6 @@
 <?php
 
-namespace AspearIT\Codensultancy\Consultant\Supplier;
+namespace AspearIT\Codensultancy\Consultant;
 
 use AspearIT\Codensultancy\Consultant\Type\ConsultantInterface;
 

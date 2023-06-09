@@ -17,13 +17,13 @@ class PHPCodeTest extends ParserTestCase
     {
         $this->expectNotToPerformAssertions();
 
-        $phpCode = new PHPCode(new Variable('foo'), '$foo');
+        $phpCode = new PHPCode(new Variable('foo'), '$foo', 2, 2);
         $phpCode->shouldBeTypeOf(Variable::class);
     }
 
     public function test_shouldBeTypeOf_should_throw_exception_when_wrong_type_is_given()
     {
-        $phpCode = new PHPCode(new Value('"foo"'), '"foo"');
+        $phpCode = new PHPCode(new Value('"foo"'), '"foo"', 2, 2);
         $this->expectException(PHPCodeUnitTypeException::class);
         $phpCode->shouldBeTypeOf(Variable::class);
     }
@@ -32,12 +32,14 @@ class PHPCodeTest extends ParserTestCase
     {
         $phpCode = new PHPCode(
             $this->mockPHPCodeType([
-                new PHPCode($this->mockPHPCodeType([]), '$foo'),
+                new PHPCode($this->mockPHPCodeType([]), '$foo', 1, 1),
                 new PHPCode($this->mockPHPCodeType([
-                    new PHPCode($this->mockPHPCodeType([]), '$foo2'),
-                ]), '$bar'),
+                    new PHPCode($this->mockPHPCodeType([]), '$foo2', 2, 2),
+                ]), '$bar', 2, 2),
             ]),
             '$foo = $bar;',
+            1,
+            2,
         );
         $this->assertCount(2, $phpCode->getInnerCode());
         $this->assertEquals('$foo', $phpCode->getInnerCode()[0]->getOriginalCode());
@@ -48,12 +50,14 @@ class PHPCodeTest extends ParserTestCase
     {
         $phpCode = new PHPCode(
             $this->mockPHPCodeType([
-                new PHPCode($this->mockPHPCodeType([]), '$foo'),
+                new PHPCode($this->mockPHPCodeType([]), '$foo', 2, 2),
                 new PHPCode($this->mockPHPCodeType([
-                    new PHPCode($this->mockPHPCodeType([]), '$foo2'),
-                ]), '$bar'),
+                    new PHPCode($this->mockPHPCodeType([]), '$foo2', 2, 2),
+                ]), '$bar', 2, 2),
             ]),
             '$foo = $bar;',
+            2,
+            2,
         );
         $this->assertCount(3, $phpCode->getInnerCodeRecursive());
         $this->assertEquals('$foo', $phpCode->getInnerCodeRecursive()[0]->getOriginalCode());
@@ -64,21 +68,27 @@ class PHPCodeTest extends ParserTestCase
     public function test_code_collections_are_ignored_in_recursive_search()
     {
         $phpCode = new PHPCode(new CodeCollection([
-            new PHPCode(new Assign(new PHPCode(new Variable('foo'), '$foo'), new PHPCode(new Variable('bar'), '$bar')), '$foo = $bar'),
-            new PHPCode(new CodeCollection([]), '$foo2'),
-        ]), 'foo');
+            new PHPCode(new Assign(new PHPCode(new Variable('foo'), '$foo', 2, 2), new PHPCode(new Variable('bar'), '$bar', 2, 2)), '$foo = $bar', 2, 2),
+            new PHPCode(new CodeCollection([]), '$foo2', 2, 2),
+        ]), 'foo', 2, 2);
         $this->assertCount(3, $phpCode->getInnerCodeRecursive());
-        $this->assertCount(0, $phpCode->getInnerCodeFromType(CodeCollection::class));
     }
 
-    public function test_getInnerCodeFromType_returns_all_children_from_given_type()
+    public function test_getCodeFromType_returns_all_children_from_given_type()
     {
         $phpCode = new PHPCode(new CodeCollection([
-            new PHPCode(new Assign(new PHPCode(new Variable('foo'), '$foo'), new PHPCode(new Variable('bar'), '$bar')), '$foo = $bar'),
-            new PHPCode(new Variable('foo2'), '$foo2'),
-        ]), 'foo');
-        $variables = $phpCode->getInnerCodeFromType(Variable::class);
+            new PHPCode(new Assign(new PHPCode(new Variable('foo'), '$foo', 2, 2), new PHPCode(new Variable('bar'), '$bar', 2, 2)), '$foo = $bar', 2, 2),
+            new PHPCode(new Variable('foo2'), '$foo2', 2, 2),
+        ]), 'foo', 2, 2);
+        $variables = $phpCode->getCodeFromType(Variable::class);
         $this->assertCount(3, $variables);
+    }
+
+    public function test_getCodeFromType_returns_itself_ïf_self_of_requested_type()
+    {
+        $phpCode = new PHPCode(new Variable('foo'), '$foo', 2, 2);
+        $variables = $phpCode->getCodeFromType(Variable::class);
+        $this->assertCount(1, $variables);
     }
 
     private function mockPHPCodeType(array $innerPHPCode)

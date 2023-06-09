@@ -23,9 +23,9 @@ class ClassMapper extends ComplexASTMapper
         $properties = [];
         foreach ($node->stmts as $stmt) {
             $code = $parser->mapASTNode($stmt);
-            if ($code->getUnitType() instanceof Variable) {
+            if ($code->getCodeType() instanceof Variable) {
                 $properties[] = $code;
-            } elseif ($code->getUnitType() instanceof Method) {
+            } elseif ($code->getCodeType() instanceof Method) {
                 $methods[] = $code;
             } else {
                 throw UnsupportedNodeException::forNode($stmt);

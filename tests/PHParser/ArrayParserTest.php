@@ -16,25 +16,25 @@ class ArrayParserTest extends ParserTestCase
 {
     public function testParser_can_compile_empty_array()
     {
-        $code = $this->parser()->parse('[];')->getUnitType();
+        $code = $this->parser()->parse('[];')->getCodeType();
         $this->assertInstanceOf(Array_::class, $code);
         $this->assertCount(0, $code->getInnerCode());
 
-        $code = $this->parser()->parse('array();')->getUnitType();
+        $code = $this->parser()->parse('array();')->getCodeType();
         $this->assertInstanceOf(Array_::class, $code);
         $this->assertCount(0, $code->getInnerCode());
     }
 
     public function testParser_can_compile_non_associative_array()
     {
-        $code = $this->parser()->parse('["foo", "bar"];')->getUnitType();
+        $code = $this->parser()->parse('["foo", "bar"];')->getCodeType();
         $this->assertInstanceOf(Array_::class, $code);
         $this->assertCount(2, $code->getInnerCode());
     }
 
     public function testParser_can_compile_associative_array()
     {
-        $code = $this->parser()->parse('["foo" => "bar"];')->getUnitType();
+        $code = $this->parser()->parse('["foo" => "bar"];')->getCodeType();
         $this->assertInstanceOf(Array_::class, $code);
         $this->assertCount(1, $code->getInnerCode());
     }
