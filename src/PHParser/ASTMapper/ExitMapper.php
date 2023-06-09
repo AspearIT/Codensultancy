@@ -3,7 +3,7 @@
 namespace AspearIT\Codensultancy\PHParser\ASTMapper;
 
 use AspearIT\Codensultancy\PHParser\ASTNodeParser;
-use AspearIT\Codensultancy\PHParser\Value\Exit_;
+use AspearIT\Codensultancy\PHParser\Value\ExitStatement;
 use AspearIT\Codensultancy\PHParser\Value\PHPCodeType;
 use PhpParser\Node;
 
@@ -20,6 +20,6 @@ class ExitMapper implements ASTMapperInterface
         if ($ASTNode->expr !== null) {
             $innerExpression = $parser->mapASTNode($ASTNode->expr);
         }
-        return new Exit_($innerExpression);
+        return new ExitStatement($innerExpression);
     }
 }

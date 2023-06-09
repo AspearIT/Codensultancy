@@ -7,7 +7,7 @@ use AspearIT\Codensultancy\PHParser\Value\MethodCall;
 use AspearIT\Codensultancy\PHParser\Value\PHPCode;
 use PhpParser\Node;
 
-class MethodCallMapper extends ComplexASTMapper
+class MethodCallMapper extends NodeGroupMapper
 {
     protected function getSupportedNodes(): array
     {

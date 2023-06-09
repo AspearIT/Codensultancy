@@ -7,7 +7,7 @@ use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
 
-class ValueMapper extends ComplexASTMapper
+class ValueMapper extends NodeGroupMapper
 {
     protected function getSupportedNodes(): array
     {

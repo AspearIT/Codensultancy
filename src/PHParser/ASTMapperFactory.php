@@ -3,7 +3,7 @@
 namespace AspearIT\Codensultancy\PHParser;
 
 use AspearIT\Codensultancy\PHParser\ASTMapper\ASTMapperInterface;
-use AspearIT\Codensultancy\PHParser\ASTMapper\ComplexASTMapper;
+use AspearIT\Codensultancy\PHParser\ASTMapper\NodeGroupMapper;
 use Psr\Container\ContainerInterface;
 
 class ASTMapperFactory
@@ -22,7 +22,7 @@ class ASTMapperFactory
                 continue;
             }
             $class = $this->getClassNameFromFile($file);
-            if ($class === ASTMapperInterface::class || $class === ComplexASTMapper::class) {
+            if ($class === ASTMapperInterface::class || $class === NodeGroupMapper::class) {
                 continue;
             }
             $mappers[] = $this->container->get($class);

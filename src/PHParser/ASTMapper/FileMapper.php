@@ -9,7 +9,7 @@ use AspearIT\Codensultancy\PHParser\Value\PHPCode;
 use PhpParser\Node;
 use PhpParser\PrettyPrinterAbstract;
 
-class FileMapper extends ComplexASTMapper
+class FileMapper extends NodeGroupMapper
 {
     public function __construct(private readonly PrettyPrinterAbstract $prettyPrinter) {}
 

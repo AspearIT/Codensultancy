@@ -6,7 +6,7 @@ use AspearIT\Codensultancy\PHParser\ASTNodeParser;
 use AspearIT\Codensultancy\PHParser\Value\PHPCodeType;
 use PhpParser\Node;
 
-abstract class ComplexASTMapper implements ASTMapperInterface
+abstract class NodeGroupMapper implements ASTMapperInterface
 {
     final public function isApplicable(Node $ASTNode): bool
     {

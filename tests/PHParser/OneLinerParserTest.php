@@ -9,8 +9,10 @@ use AspearIT\Codensultancy\PHParser\Value\Calculation;
 use AspearIT\Codensultancy\PHParser\Value\Concatenation;
 use AspearIT\Codensultancy\PHParser\Value\EchoStatement;
 use AspearIT\Codensultancy\PHParser\Value\MethodCall;
+use AspearIT\Codensultancy\PHParser\Value\ObjectCreation;
 use AspearIT\Codensultancy\PHParser\Value\PropertyAccessVariable;
 use AspearIT\Codensultancy\PHParser\Value\PropertyVariable;
+use AspearIT\Codensultancy\PHParser\Value\ThrowStatement;
 use AspearIT\Codensultancy\PHParser\Value\Value;
 use AspearIT\Codensultancy\PHParser\Value\Variable;
 
@@ -47,6 +49,8 @@ class OneLinerParserTest extends ParserTestCase
             '$object->subObject->property;' => [PropertyAccessVariable::class, [PropertyAccessVariable::class, PropertyVariable::class]],
             '"SELECT * FROM table WHERE prop = $var1";' => [Concatenation::class, [Value::class, Variable::class]],
             '"SELECT * FROM table WHERE prop = $var1 AND method = " . method();' => [Concatenation::class, [Concatenation::class, MethodCall::class]],
+            'new Foo\Bar($a);' => [ObjectCreation::class, [Variable::class]],
+            "throw new \DomainException('This is an error');" => [ThrowStatement::class, [ObjectCreation::class]],
         ];
     }
 }

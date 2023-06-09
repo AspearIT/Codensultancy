@@ -10,7 +10,7 @@ use AspearIT\Codensultancy\PHParser\Value\Value;
 use PhpParser\Node;
 use PhpParser\Node\Expr\BinaryOp;
 
-class ConcatenatedValueMapper extends ComplexASTMapper
+class ConcatenatedValueMapper extends NodeGroupMapper
 {
     public function mapConcatenatedPart(Node $ASTNode, ASTNodeParser $parser): PHPCodeType
     {

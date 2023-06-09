@@ -2,7 +2,7 @@
 
 namespace AspearIT\Codensultancy\PHParser\Value;
 
-class Exit_ implements PHPCodeType
+class ExitStatement implements PHPCodeType
 {
     public function __construct(private readonly ?PHPCode $input) {}
 

@@ -7,7 +7,7 @@ use AspearIT\Codensultancy\PHParser\Value\IfStatement;
 use PhpParser\Node\Stmt\ElseIf_;
 use PhpParser\Node\Stmt\If_;
 
-class IfStatementMapper extends ComplexASTMapper
+class IfStatementMapper extends NodeGroupMapper
 {
     protected function getSupportedNodes(): array
     {

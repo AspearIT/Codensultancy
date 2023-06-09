@@ -2,7 +2,7 @@
 
 namespace AspearIT\Codensultancy\PHParser\Value;
 
-class Array_ implements PHPCodeType
+class ArrayStatement implements PHPCodeType
 {
     /**
      * @param PHPCode[] $items

@@ -9,7 +9,7 @@ use AspearIT\Codensultancy\PHParser\Value\PropertyVariable;
 use AspearIT\Codensultancy\PHParser\Value\Variable;
 use PhpParser\Node;
 
-class VariableMapper extends ComplexASTMapper
+class VariableMapper extends NodeGroupMapper
 {
     protected function getSupportedNodes(): array
     {
